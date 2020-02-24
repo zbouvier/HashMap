@@ -33,7 +33,7 @@ public:
         size = 0;
         arr = new HashNode * [capacity];
 
-        //Initialise all elements of array as NULL 
+        //all elements of array as NULL 
         for (int i = 0; i < capacity; i++)
             arr[i] = NULL;
 
@@ -95,7 +95,7 @@ public:
         }
 
         //If not found return null 
-        return NULL;
+        return 0;
     }
 
     //Function to search the value for a given key 
@@ -118,7 +118,7 @@ public:
         }
 
         //If not found return null 
-        return NULL;
+        return 0;
     }
 
     //Return current size  
@@ -144,32 +144,65 @@ public:
         }
     }
 };
-void read_record()
+//int read_record()
+//{
+//    ifstream file("acs2015_county_data.csv");
+//    string value;
+//    getline(file, value, '\r'); // yeet the header
+//    int count = 0;
+//    while (file.good())
+//    {
+//        getline(file, value, ','); 
+//        cout << value << ",";
+//        count++;
+//    }
+//    cout << "\n";
+//    return count/37;
+//}
+int readRecord()
 {
     ifstream file("acs2015_county_data.csv");
-    string value;
-    getline(file, value, '\r'); // yeet the header
-    while (file.good())
+    string str;
+    int count = 0;
+    getline(file, str, '\r');
+    while (getline(file, str, '\r'))
     {
-        getline(file, value, ','); 
-        cout << value << ",";
+        //cout << str << "\n";
+        stringstream ss(str);
+        string item;
+        getline(ss, item, ',');
+        string preHashedKey = item;
+        getline(ss, item);
+        string data = item;
+        count++;
     }
-    cout << "\n";
+    return count;
 }
-
+int countRecord()
+{
+    ifstream file("acs2015_county_data.csv");
+    string str;
+    int count = 0;
+    getline(file, str, '\r');
+    while (getline(file, str, '\r'))
+    {
+        count++;
+    }
+    return count;
+}
 //Driver method to test map class 
 int main()
 {
-    //HashMap* h = new HashMap;
+    HashMap* h = new HashMap(countRecord());
     //h->insertNode(1, 1);
     //h->insertNode(2, 2);
     //h->insertNode(2, 3);
     //h->display();
-    //cout << h->sizeofMap() << endl;
+    cout << countRecord() << endl;
     //cout << h->deleteNode(2) << endl;
     //cout << h->sizeofMap() << endl;
     //cout << h->isEmpty() << endl;
     //cout << h->get(2);
-    read_record();
+    //cout << recCount;
     return 0;
 }
