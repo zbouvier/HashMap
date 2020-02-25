@@ -21,7 +21,7 @@ public:
 
 class HashMap
 {
-    HashNode** arr; //I absolutely do not know why I need a pointer to a pointer, I dont get C++
+    HashNode** arr; //I absolutely do not know why I need a pointer to a pointer, I dont get C++ but it worked so ill go with it
     int capacity;
     int size;
     HashNode* dummyNode;
@@ -50,7 +50,6 @@ public:
     void insertNode(int key, string value)
     {
         HashNode* temp = new HashNode(key, value);
-
         // Apply hash function to find index for given key 
         int hashIndex = hashCode(key);
 
@@ -59,7 +58,7 @@ public:
             && arr[hashIndex]->key != -1)
         {
             hashIndex++;
-            hashIndex = hashIndex % capacity;
+            hashIndex %= capacity;
         }
 
         //if new node to be inserted increase the current size 
@@ -95,7 +94,7 @@ public:
         }
 
         //If not found return null 
-        return 0;
+        return "";
     }
 
     //Function to search the value for a given key 
@@ -109,31 +108,24 @@ public:
         {
             int counter = 0;
             if (counter++ > capacity)  //to avoid infinite loop 
-                return NULL;
+                return "not found";
             //if node found return its value 
             if (arr[hashIndex]->key == key)
                 return arr[hashIndex]->val;
             hashIndex++;
             hashIndex %= capacity;
         }
-
-        //If not found return null 
-        return 0;
+        return "";
     }
-
-    //Return current size  
     int sizeofMap()
     {
         return size;
     }
-
-    //Return true if size is 0 
     bool isEmpty()
     {
         return size == 0;
     }
-
-    //Function to display the stored key value pairs 
+ 
     void display()
     {
         for (int i = 0; i < capacity; i++)
@@ -144,22 +136,8 @@ public:
         }
     }
 };
-//int read_record()
-//{
-//    ifstream file("acs2015_county_data.csv");
-//    string value;
-//    getline(file, value, '\r'); // yeet the header
-//    int count = 0;
-//    while (file.good())
-//    {
-//        getline(file, value, ','); 
-//        cout << value << ",";
-//        count++;
-//    }
-//    cout << "\n";
-//    return count/37;
-//}
-int readRecord()
+
+int readRecord(HashMap* h)
 {
     ifstream file("acs2015_county_data.csv");
     string str;
@@ -174,6 +152,7 @@ int readRecord()
         string preHashedKey = item;
         getline(ss, item);
         string data = item;
+        h->insertNode(stoi(preHashedKey), data);
         count++;
     }
     return count;
@@ -193,16 +172,20 @@ int countRecord()
 //Driver method to test map class 
 int main()
 {
-    HashMap* h = new HashMap(countRecord());
-    //h->insertNode(1, 1);
-    //h->insertNode(2, 2);
-    //h->insertNode(2, 3);
-    //h->display();
-    cout << countRecord() << endl;
-    //cout << h->deleteNode(2) << endl;
+    HashMap* h = new HashMap(100000);
+    readRecord(h);
+    //h->insertNode(9998, "hi");
+    h->insertNode(1001, "hi");
+    h->insertNode(1001, "hi");
+    h->insertNode(1001, "h1i");
+
+    //cout << h->get(1001);
     //cout << h->sizeofMap() << endl;
+    h->display();
+    //cout << h->deleteNode(2) << endl;
+    cout << h->sizeofMap() << endl;
     //cout << h->isEmpty() << endl;
-    //cout << h->get(2);
+    cout << h->get(1001);
     //cout << recCount;
     return 0;
 }
