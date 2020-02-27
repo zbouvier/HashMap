@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ChainHashMap.cpp" />
     <ClCompile Include="HashMap.cpp" />
   </ItemGroup>
   <ItemGroup>
